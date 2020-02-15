@@ -1,0 +1,22 @@
+plot(h.CV.range,h.CV.Cost{9},'-k','Linewidth',2); hold on
+plot(h.CV.range,h.CV.Cost{11},':k','Linewidth',2);
+
+plot(h.CV.range,h.CV.Cost{10},'-r','Linewidth',2); hold on
+plot(h.CV.range,h.CV.Cost{12},':r','Linewidth',2);
+xlim([0 5])
+set(gca,'Yscale','log')
+xlabel('h')
+ylabel('Cost')
+legend('Gaussian New Range','Gaussian','Epanechikov New Range','Epanechikov')
+
+h.CV.range
+hnew=linspace(min(h.CV.range),max(h.CV.range),200);
+ynew=interp1(h.CV.range,h.CV.Cost{10},hnew,'pchip',0);
+ynew2=interp1(h.CV.range,h.CV.Cost{11},hnew,'pchip',0);
+
+plot(h.CV.range,h.CV.Cost{10},':or'); hold on
+plot(hnew,ynew,'r');
+
+
+plot(h.CV.range,h.CV.Cost{11},':ok'); hold on
+plot(hnew,ynew2,'k');

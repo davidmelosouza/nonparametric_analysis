@@ -1,0 +1,39 @@
+% TEST DISTRIBUIÕES
+clear variables;  clc; close all;
+%=========================================================================
+% TESTANDO TODAS AS DISTRIBUIÇÕES QUE SERÃO UTILIZADAS NA TESE
+%=========================================================================
+norm = 'fit';
+inter = 'linear';
+errortype = 'none';
+mod = 'abs';
+band = 'fix';
+nPoint = 1000;
+vEVT = [100 500 1000 2000 5000];
+nEST = 1000;
+nROI = 1;
+nGRID = 10^5;
+ntmax = 50;
+
+for ne = 1:length(vEVT)
+    load([pwd '\HIST\HIST[all]EVT[' num2str(vEVT(ne)) ']'],'BIN','AREA');
+    A{ne} = AREA;
+    B{ne} = BIN;
+end
+
+for ie = 1:5
+    for id = 1:12
+        METHOD.FD{id}(:,ie) = A{ie}.FD(:,id);
+        METHOD.SC{id}(:,ie) = A{ie}.SC(:,id);
+        METHOD.ST{id}(:,ie) = A{ie}.ST(:,id);
+        METHOD.DO{id}(:,ie) = A{ie}.DO(:,id);
+        METHOD.KN{id}(:,ie) = A{ie}.KN(:,id);
+        METHOD.WA{id}(:,ie) = A{ie}.WA(:,id);
+        METHOD.SS{id}(:,ie) = A{ie}.SS(:,id);
+        METHOD.RU{id}(:,ie) = A{ie}.RU(:,id);
+        METHOD.LH{id}(:,ie) = A{ie}.LH(:,id);
+        METHOD.TR{id}(:,ie) = A{ie}.TR(:,id);
+    end
+end
+
+DADOS_AREA = {METHOD.FD{d}}

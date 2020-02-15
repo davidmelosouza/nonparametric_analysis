@@ -1,0 +1,32 @@
+function [DATA] = D4aGen(setup,range)
+
+%==========================================================================
+% Sinal
+%==========================================================================
+if strcmp(setup.TYPE.DATA,'sg') || strcmp(setup.TYPE.DATA,'both')
+    sg.n.x = setup.PTS;
+    sg.g1.mu = 0;
+    sg.g1.std = 1;
+    if range == 1
+        load([pwd '\limit\limit[' setup.TYPE.NAME ']STD[' num2str(setup.MINMAX.STD) ']'],'pdf');
+        sg.pdf.truth.x = linspace(pdf.xlimit(1),pdf.xlimit(2),sg.n.x);
+    else
+        sg.pdf.truth.x = linspace(-6,6,sg.n.x);
+    end
+    sg.pdf.truth.y = normpdf(sg.pdf.truth.x,sg.g1.mu,sg.g1.std);
+    icut_pdf = find(sg.pdf.truth.x>0); 
+    sg.pdf.truth.y(icut_pdf) = 0;
+    sg.pdf.truth.y=sg.pdf.truth.y/area2d(sg.pdf.truth.x,sg.pdf.truth.y);
+    sg.n.evt = setup.EVT;
+    [sg.evt] = sg.g1.mu+sg.g1.std*randn(sg.n.evt*100,1);
+    icut_evt = find(sg.evt<0); 
+    icut_evt = icut_evt(randperm(sg.n.evt));
+     sg.evt = sg.evt(icut_evt(1:setup.EVT));
+%     sg.evt =sg.evt(randi(length(sg.evt),1,sg.n.evt));
+    DATA.sg = sg;
+end
+
+end
+
+
+
